@@ -125,20 +125,22 @@ Para salvar no `nano`: pressione `Ctrl + O`, tecle `Enter`, e depois `Ctrl + X` 
 
 ---
 
-### 4. Gerar a Chave da Aplicação (`APP_KEY`)
+### 4. Instalar Dependências do PHP (Composer)
+
+O Composer precisa rodar primeiro para criar a pasta `vendor/` necessária para os comandos `artisan`:
 
 ```bash
-php artisan key:generate --force
+composer install --no-dev --optimize-autoloader
 ```
 
 ---
 
-### 5. Instalar Dependências do PHP (Composer)
+### 5. Gerar a Chave da Aplicação (`APP_KEY`)
 
-Execute o Composer otimizado para ambiente de produção:
+Após a instalação do Composer, gere a chave criptográfica do Laravel:
 
 ```bash
-composer install --no-dev --optimize-autoloader
+php artisan key:generate --force
 ```
 
 ---
