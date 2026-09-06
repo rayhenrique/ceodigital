@@ -90,7 +90,7 @@ class AuditoriaService
                         $audit->tabela_afetada,
                         $audit->registro_id,
                         $audit->ip_address ?? '-',
-                        $audit->dados_antigos ? json_encode($audit->dados_antigos, JSON_UNESCAPED_UNICODE) : '',
+                        $audit->dados_anteriores ? json_encode($audit->dados_anteriores, JSON_UNESCAPED_UNICODE) : '',
                         $audit->dados_novos ? json_encode($audit->dados_novos, JSON_UNESCAPED_UNICODE) : '',
                     ], ';');
                 }
