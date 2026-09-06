@@ -31,8 +31,18 @@
             </div>
 
             <nav class="flex items-center gap-2 sm:gap-4">
-                <a href="#especialidades" class="hidden sm:inline-block text-sm font-semibold text-slate-600 hover:text-teal-600 transition">Especialidades</a>
-                <a href="#horarios" class="hidden sm:inline-block text-sm font-semibold text-slate-600 hover:text-teal-600 transition">Atendimento</a>
+                <a href="#especialidades" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-teal-600 transition group">
+                    <svg class="w-4 h-4 text-teal-600/80 group-hover:text-teal-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    </svg>
+                    <span>Especialidades</span>
+                </a>
+                <a href="#horarios" class="hidden sm:inline-flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-teal-600 transition group">
+                    <svg class="w-4 h-4 text-teal-600/80 group-hover:text-teal-600 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Atendimento</span>
+                </a>
                 @auth
                     <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-teal-600 text-white font-semibold text-xs sm:text-sm shadow-md hover:bg-teal-700 transition">
                         <span>Acessar Painel</span>
