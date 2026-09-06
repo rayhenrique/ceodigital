@@ -9,6 +9,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $paciente_id
+ * @property int $especialidade_id
+ * @property string $turno_preferencial
+ * @property string $prioridade
+ * @property string $status
+ * @property \Illuminate\Support\Carbon $data_solicitacao
+ * @property string|null $observacoes
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $turno_preferencial_formatado
+ * @property-read \App\Models\Paciente|null $paciente
+ * @property-read \App\Models\Especialidade|null $especialidade
+ */
 class DemandaReprimida extends Model
 {
     use HasFactory;

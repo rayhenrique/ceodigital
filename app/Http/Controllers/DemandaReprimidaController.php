@@ -13,6 +13,7 @@ use App\Services\AgendamentoService;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -144,7 +145,7 @@ class DemandaReprimidaController extends Controller
 
             return redirect()
                 ->route('agenda.index', [
-                    'data' => $agendamento->data_agendamento->toDateString(),
+                    'data' => Carbon::parse($agendamento->data_agendamento)->toDateString(),
                     'turno' => $agendamento->turno,
                 ])
                 ->with('success', "Paciente {$demanda->paciente->nome_completo} promovido da fila com sucesso para a agenda!");

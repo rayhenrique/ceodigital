@@ -106,7 +106,7 @@ class AgendaController extends Controller
 
             return redirect()
                 ->route('agenda.index', [
-                    'data' => $agendamento->data_agendamento->toDateString(),
+                    'data' => Carbon::parse($agendamento->data_agendamento)->toDateString(),
                     'turno' => $agendamento->turno,
                 ])
                 ->with('success', 'Consulta agendada com sucesso.');
