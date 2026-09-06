@@ -95,6 +95,8 @@ Route::middleware('auth')->group(function () {
         Route::post('users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
 
         // Trilha de Auditoria (RF24)
+        Route::get('auditorias/exportar', [AuditoriaController::class, 'exportar'])->name('auditorias.exportar');
+        Route::post('auditorias/expurgar', [AuditoriaController::class, 'expurgar'])->name('auditorias.expurgar');
         Route::get('auditorias', [AuditoriaController::class, 'index'])->name('auditorias.index');
         Route::get('auditorias/{auditoria}', [AuditoriaController::class, 'show'])->name('auditorias.show');
     });

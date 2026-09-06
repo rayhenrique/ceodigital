@@ -4,13 +4,38 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int|null $user_id
+ * @property string $acao
+ * @property string $tabela_afetada
+ * @property int $registro_id
+ * @property array<string, mixed>|null $dados_anteriores
+ * @property array<string, mixed>|null $dados_novos
+ * @property string|null $ip_address
+ * @property string|null $user_agent
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property-read \App\Models\User|null $user
+ */
 class Auditoria extends Model
 {
-    use HasFactory;
+    use HasFactory, MassPrunable;
+
+    /**
+     * Determina a query de expurgo de registros antigos de auditoria.
+     */
+    public function prunable(): Builder
+    {
+        $diasRetencao = (int) config('audit.retention_days', 180);
+
+        return static::where('created_at', '<=', now()->subDays($diasRetencao));
+    }
 
     /**
      * Tabela associada ao Model.
