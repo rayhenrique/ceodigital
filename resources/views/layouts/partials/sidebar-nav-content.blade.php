@@ -11,18 +11,11 @@
             Painel Geral
         </x-sidebar-nav-link>
 
-        <x-sidebar-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index') || request()->routeIs('agenda.create')">
+        <x-sidebar-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.*')">
             <x-slot name="icon">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             </x-slot>
-            Agenda Diária
-        </x-sidebar-nav-link>
-
-        <x-sidebar-nav-link :href="route('agenda.mensal')" :active="request()->routeIs('agenda.mensal')">
-            <x-slot name="icon">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2zM3 10h18M7 15h1m4 0h1m4 0h1m-10 4h1m4 0h1m4 0h1"/></svg>
-            </x-slot>
-            Mapa Mensal da Agenda
+            Agenda
         </x-sidebar-nav-link>
 
         <x-sidebar-nav-link :href="route('demanda-reprimida.index')" :active="request()->routeIs('demanda-reprimida.*')">

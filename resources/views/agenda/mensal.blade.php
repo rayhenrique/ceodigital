@@ -17,7 +17,7 @@
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('agenda.index') }}" class="inline-flex items-center px-3.5 py-2 bg-white border border-slate-300 text-slate-700 rounded-lg font-semibold text-xs uppercase tracking-wider hover:bg-slate-50 transition shadow-xs">
                     <svg class="w-4 h-4 me-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Agenda Diária
+                    Agenda
                 </a>
                 <a href="{{ route('agenda.create') }}" class="inline-flex items-center px-3.5 py-2 bg-teal-600 text-white rounded-lg font-semibold text-xs uppercase tracking-wider hover:bg-teal-700 transition shadow-xs">
                     <svg class="w-4 h-4 me-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
