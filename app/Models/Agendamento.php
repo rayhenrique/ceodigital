@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $especialidade_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon $data_agendamento
+ * @property-read \Illuminate\Support\Carbon $data
  * @property string $turno
  * @property string $tipo
  * @property string $status
@@ -70,11 +73,21 @@ class Agendamento extends Model
     }
 
     /**
+     * Alias acessor de retrocompatibilidade para data_agendamento.
+     */
+    protected function data(): Attribute
+    {
+        return Attribute::make(
+            get: fn (): ?Carbon => $this->data_agendamento,
+        );
+    }
+
+    /**
      * Escopo para filtrar agendamentos de uma data específica (padrão: hoje).
      */
     public function scopeDoDia(Builder $query, ?string $data = null): Builder
     {
-        return $query->where('data_agendamento', $data ?? now()->toDateString());
+        return $query->whereDate('data_agendamento', $data ?? now()->toDateString());
     }
 
     /**

@@ -25,14 +25,18 @@ class AuditoriaService
         $dataInicio = $filtros['data_inicio'] ?? null;
         $dataFim = $filtros['data_fim'] ?? null;
 
-        return Auditoria::query()
-            ->with('user')
+        /** @var Builder<Auditoria> $query */
+        $query = Auditoria::query();
+
+        $query->with('user')
             ->when($tabela, fn (Builder $q) => $q->where('tabela_afetada', $tabela))
             ->when($acao, fn (Builder $q) => $q->where('acao', 'like', "%{$acao}%"))
             ->when($userId, fn (Builder $q) => $q->where('user_id', (int) $userId))
             ->when($dataInicio, fn (Builder $q) => $q->whereDate('created_at', '>=', $dataInicio))
             ->when($dataFim, fn (Builder $q) => $q->whereDate('created_at', '<=', $dataFim))
             ->orderBy('created_at', 'desc');
+
+        return $query;
     }
 
     /**
