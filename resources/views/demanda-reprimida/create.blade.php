@@ -122,6 +122,45 @@
                         @error('prioridade') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
+                    <!-- Turno Preferencial -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Turno Preferencial de Atendimento *</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition">
+                                <input type="radio" name="turno_preferencial" value="qualquer" {{ old('turno_preferencial', 'qualquer') === 'qualquer' ? 'checked' : '' }} class="text-purple-600 focus:ring-purple-500">
+                                <div class="ms-2">
+                                    <div class="text-xs font-bold text-slate-800">Qualquer</div>
+                                    <div class="text-[10px] text-slate-500">Mais flexível</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition">
+                                <input type="radio" name="turno_preferencial" value="manha" {{ old('turno_preferencial') === 'manha' ? 'checked' : '' }} class="text-purple-600 focus:ring-purple-500">
+                                <div class="ms-2">
+                                    <div class="text-xs font-bold text-slate-800">Manhã</div>
+                                    <div class="text-[10px] text-slate-500">08h às 12h</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition">
+                                <input type="radio" name="turno_preferencial" value="tarde" {{ old('turno_preferencial') === 'tarde' ? 'checked' : '' }} class="text-purple-600 focus:ring-purple-500">
+                                <div class="ms-2">
+                                    <div class="text-xs font-bold text-slate-800">Tarde</div>
+                                    <div class="text-[10px] text-slate-500">13h às 17h</div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center p-3 border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50 transition">
+                                <input type="radio" name="turno_preferencial" value="noite" {{ old('turno_preferencial') === 'noite' ? 'checked' : '' }} class="text-purple-600 focus:ring-purple-500">
+                                <div class="ms-2">
+                                    <div class="text-xs font-bold text-slate-800">Noite</div>
+                                    <div class="text-[10px] text-slate-500">18h às 22h</div>
+                                </div>
+                            </label>
+                        </div>
+                        @error('turno_preferencial') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+
                     <!-- Data da Solicitação -->
                     <div>
                         <label for="data_solicitacao" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Data da Solicitação / Encaminhamento *</label>

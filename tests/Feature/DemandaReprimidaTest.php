@@ -161,4 +161,67 @@ class DemandaReprimidaTest extends TestCase
         $this->assertNotNull($agendamentoCriado);
         $this->assertEquals($this->dataConsulta, $agendamentoCriado->data_agendamento->format('Y-m-d'));
     }
+
+    /**
+     * Testa inserção na fila de espera informando turno preferencial.
+     */
+    public function test_pode_inserir_paciente_na_fila_de_espera_com_turno_preferencial(): void
+    {
+        $paciente = Paciente::create([
+            'ubs_id' => $this->ubs->id,
+            'cpf' => '52998224725',
+            'nome_completo' => 'Paciente Com Turno',
+            'data_nascimento' => '1995-03-10',
+            'sexo' => 'M',
+            'telefone_1' => '82999993333',
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->post(route('demanda-reprimida.store'), [
+                'paciente_id' => $paciente->id,
+                'especialidade_id' => $this->especialidade->id,
+                'turno_preferencial' => 'manha',
+                'prioridade' => 'normal',
+                'data_solicitacao' => now()->toDateString(),
+            ]);
+
+        $response->assertRedirect(route('demanda-reprimida.index'));
+        $this->assertDatabaseHas('demanda_reprimida', [
+            'paciente_id' => $paciente->id,
+            'especialidade_id' => $this->especialidade->id,
+            'turno_preferencial' => 'manha',
+        ]);
+    }
+
+    /**
+     * Testa inserção na fila de espera sem enviar turno_preferencial com fallback para 'qualquer'.
+     */
+    public function test_pode_inserir_paciente_na_fila_sem_turno_com_fallback_para_qualquer(): void
+    {
+        $paciente = Paciente::create([
+            'ubs_id' => $this->ubs->id,
+            'cpf' => '65432198700',
+            'nome_completo' => 'Paciente Sem Turno',
+            'data_nascimento' => '1992-05-15',
+            'sexo' => 'F',
+            'telefone_1' => '82999994444',
+        ]);
+
+        $response = $this->actingAs($this->user)
+            ->post(route('demanda-reprimida.store'), [
+                'paciente_id' => $paciente->id,
+                'especialidade_id' => $this->especialidade->id,
+                // sem turno_preferencial
+                'prioridade' => 'urgente',
+                'data_solicitacao' => now()->toDateString(),
+            ]);
+
+        $response->assertRedirect(route('demanda-reprimida.index'));
+        $this->assertDatabaseHas('demanda_reprimida', [
+            'paciente_id' => $paciente->id,
+            'especialidade_id' => $this->especialidade->id,
+            'turno_preferencial' => 'qualquer',
+            'prioridade' => 'urgente',
+        ]);
+    }
 }

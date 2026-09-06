@@ -134,9 +134,15 @@
                                         @endif
                                     </td>
 
-                                    <!-- Especialidade -->
+                                    <!-- Especialidade e Turno Preferencial -->
                                     <td class="px-4 py-3.5 whitespace-nowrap">
                                         <span class="font-bold text-slate-800">{{ $demanda->especialidade->nome }}</span>
+                                        <div class="text-[11px] text-slate-500 mt-0.5 flex items-center gap-1">
+                                            <span class="text-slate-400">Turno:</span>
+                                            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-700">
+                                                {{ $demanda->turno_preferencial_formatado }}
+                                            </span>
+                                        </div>
                                     </td>
 
                                     <!-- Data Solicitação / Espera -->

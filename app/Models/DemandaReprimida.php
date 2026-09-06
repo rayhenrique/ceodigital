@@ -48,6 +48,19 @@ class DemandaReprimida extends Model
     }
 
     /**
+     * Rótulo formatado para exibição do turno preferencial do paciente.
+     */
+    public function getTurnoPreferencialFormatadoAttribute(): string
+    {
+        return match ($this->turno_preferencial) {
+            'manha' => 'Manhã',
+            'tarde' => 'Tarde',
+            'noite' => 'Noite',
+            default => 'Qualquer Turno',
+        };
+    }
+
+    /**
      * Marca o registro da fila como agendado/atendido.
      */
     public function marcarComoAgendado(): bool

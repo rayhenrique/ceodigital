@@ -15,6 +15,17 @@ class DemandaReprimidaFormRequest extends FormRequest
     }
 
     /**
+     * Prepara os dados antes da validação.
+     * Se nenhum turno for informado, define 'qualquer' como padrão seguro.
+     */
+    protected function prepareForValidation(): void
+    {
+        if (! $this->filled('turno_preferencial')) {
+            $this->merge(['turno_preferencial' => 'qualquer']);
+        }
+    }
+
+    /**
      * @return array<string, mixed>
      */
     public function rules(): array
@@ -22,7 +33,7 @@ class DemandaReprimidaFormRequest extends FormRequest
         return [
             'paciente_id' => ['required', 'integer', 'exists:pacientes,id'],
             'especialidade_id' => ['required', 'integer', 'exists:especialidades,id'],
-            'turno_preferencial' => ['required', Rule::in(['qualquer', 'manha', 'tarde', 'noite'])],
+            'turno_preferencial' => ['nullable', Rule::in(['qualquer', 'manha', 'tarde', 'noite'])],
             'prioridade' => ['required', Rule::in(['normal', 'urgente'])],
             'data_solicitacao' => ['required', 'date', 'before_or_equal:today'],
             'observacoes' => ['nullable', 'string', 'max:1000'],
@@ -39,6 +50,7 @@ class DemandaReprimidaFormRequest extends FormRequest
             'paciente_id.exists' => 'Paciente inválido.',
             'especialidade_id.required' => 'A especialidade demandada é obrigatória.',
             'especialidade_id.exists' => 'Especialidade selecionada inválida.',
+            'turno_preferencial.in' => 'O turno preferencial selecionado é inválido.',
             'data_solicitacao.required' => 'A data da solicitação é obrigatória.',
             'data_solicitacao.before_or_equal' => 'A data de solicitação não pode ser uma data futura.',
         ];
