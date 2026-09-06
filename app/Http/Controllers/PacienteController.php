@@ -15,16 +15,19 @@ use Illuminate\View\View;
 class PacienteController extends Controller
 {
     /**
-     * Listagem de pacientes com busca rápida unificada por Nome, CPF ou CNS.
+     * Listagem de pacientes com busca rápida unificada por Nome, CPF ou CNS e filtro por UBS.
      * Suporta resposta JSON para buscas reativas (autocomplete / Alpine.js).
      */
     public function index(Request $request): View|JsonResponse
     {
         $busca = $request->input('busca');
+        $ubsId = $request->input('ubs_id');
         $buscaLimpa = $busca ? preg_replace('/\D/', '', (string) $busca) : '';
 
         $query = Paciente::query()
             ->with('ubs')
+            ->withCount(['agendamentos', 'demandasReprimidas'])
+            ->when($ubsId, fn ($q) => $q->where('ubs_id', (int) $ubsId))
             ->when($busca, function ($q) use ($busca, $buscaLimpa) {
                 $q->where(function ($sub) use ($busca, $buscaLimpa) {
                     $sub->where('nome_completo', 'like', "%{$busca}%");
@@ -52,8 +55,9 @@ class PacienteController extends Controller
         }
 
         $pacientes = $query->paginate(15)->withQueryString();
+        $ubsList = Ubs::orderBy('nome')->get(['id', 'nome']);
 
-        return view('pacientes.index', compact('pacientes', 'busca'));
+        return view('pacientes.index', compact('pacientes', 'busca', 'ubsId', 'ubsList'));
     }
 
     /**
@@ -75,7 +79,7 @@ class PacienteController extends Controller
 
         return redirect()
             ->route('pacientes.show', $paciente)
-            ->with('success', 'Paciente cadastrado com sucesso no CEO Digital.');
+            ->with('success', "Paciente '{$paciente->nome_completo}' cadastrado com sucesso no CEO Digital.");
     }
 
     /**
@@ -115,24 +119,31 @@ class PacienteController extends Controller
 
         return redirect()
             ->route('pacientes.show', $paciente)
-            ->with('success', 'Dados do paciente atualizados com sucesso.');
+            ->with('success', "Dados do paciente '{$paciente->nome_completo}' atualizados com sucesso.");
     }
 
     /**
-     * Exclui o paciente caso não haja agendamentos cadastrados.
+     * Exclui o paciente caso não haja agendamentos ou demandas ativas cadastradas.
      */
     public function destroy(Paciente $paciente): RedirectResponse
     {
         if ($paciente->agendamentos()->exists()) {
             return redirect()
                 ->route('pacientes.index')
-                ->with('error', 'Não é possível remover o paciente pois ele possui histórico de agendamentos no sistema.');
+                ->with('error', "Não é possível excluir o paciente '{$paciente->nome_completo}' pois ele possui histórico de agendamentos no sistema.");
         }
 
+        if ($paciente->demandasReprimidas()->where('status', 'aguardando')->exists()) {
+            return redirect()
+                ->route('pacientes.index')
+                ->with('error', "Não é possível excluir o paciente '{$paciente->nome_completo}' pois ele possui solicitações aguardando na fila de espera.");
+        }
+
+        $nome = $paciente->nome_completo;
         $paciente->delete();
 
         return redirect()
             ->route('pacientes.index')
-            ->with('success', 'Paciente excluído com sucesso.');
+            ->with('success', "Paciente '{$nome}' excluído com sucesso.");
     }
 }

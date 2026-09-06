@@ -10,56 +10,144 @@
                 </p>
             </div>
             <a href="{{ route('pacientes.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs self-start sm:self-auto">
+                <svg class="w-4 h-4 me-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Voltar à Lista
             </a>
         </div>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-8" x-data="{
+        cpfVal: '{{ old('cpf') }}',
+        cnsVal: '{{ old('cns') }}',
+        tel1Val: '{{ old('telefone_1') }}',
+        tel2Val: '{{ old('telefone_2') }}',
+        mascararCpf(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4');
+            else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3');
+            else if (v.length > 3) v = v.replace(/(\d{3})(\d{1,3})/, '$1.$2');
+            this.cpfVal = v;
+        },
+        mascararCns(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 15) v = v.slice(0, 15);
+            this.cnsVal = v;
+        },
+        mascararTelefone(e, prop) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            if (v.length > 10) {
+                v = v.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (v.length > 5) {
+                v = v.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else if (v.length > 2) {
+                v = v.replace(/(\d{2})(\d{0,5})/, '($1) $2');
+            }
+            this[prop] = v;
+        }
+    }">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            @if($errors->any())
+                <div class="mb-6 p-4 bg-rose-50 border-l-4 border-rose-500 text-rose-800 rounded-r-lg text-sm shadow-xs space-y-1">
+                    <div class="font-bold flex items-center gap-1.5">
+                        <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Por favor, corrija os erros abaixo:
+                    </div>
+                    <ul class="list-disc list-inside pl-1 text-xs">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-6 sm:p-8">
-                <form method="POST" action="{{ route('pacientes.store') }}" class="space-y-6">
+                <form method="POST" action="{{ route('pacientes.store') }}" class="space-y-8">
                     @csrf
 
-                    <!-- Dados Pessoais -->
+                    <!-- 1. Identificação do Cidadão -->
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 mb-4">
-                            1. Identificação do Cidadão
-                        </h3>
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-2 mb-4">
+                            <span class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 text-xs font-bold flex items-center justify-center">1</span>
+                            <h3 class="text-base font-bold text-slate-800">Identificação do Cidadão</h3>
+                        </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- Nome Completo -->
                             <div class="sm:col-span-2">
-                                <label for="nome_completo" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nome Completo *</label>
-                                <input type="text" id="nome_completo" name="nome_completo" value="{{ old('nome_completo') }}" required class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500" placeholder="Ex: Maria José da Silva">
+                                <label for="nome_completo" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Nome Completo <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="nome_completo" 
+                                       name="nome_completo" 
+                                       value="{{ old('nome_completo') }}" 
+                                       required 
+                                       class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('nome_completo') border-rose-400 bg-rose-50/50 @enderror" 
+                                       placeholder="Ex: Maria José da Silva">
                                 @error('nome_completo') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <!-- CPF -->
                             <div>
-                                <label for="cpf" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">CPF (11 dígitos) *</label>
-                                <input type="text" id="cpf" name="cpf" value="{{ old('cpf') }}" required maxlength="14" placeholder="000.000.000-00" class="w-full rounded-lg border-slate-300 text-sm font-mono focus:border-teal-500 focus:ring-teal-500">
+                                <label for="cpf" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    CPF (11 dígitos) <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="cpf" 
+                                       name="cpf" 
+                                       x-model="cpfVal"
+                                       @input="mascararCpf($event)"
+                                       required 
+                                       maxlength="14" 
+                                       placeholder="000.000.000-00" 
+                                       class="w-full rounded-lg border-slate-300 text-sm font-mono focus:border-teal-500 focus:ring-teal-500 @error('cpf') border-rose-400 bg-rose-50/50 @enderror">
                                 @error('cpf') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <!-- CNS (Cartão SUS) -->
                             <div>
-                                <label for="cns" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Cartão Nacional de Saúde (CNS)</label>
-                                <input type="text" id="cns" name="cns" value="{{ old('cns') }}" maxlength="15" placeholder="Ex: 700000000000000" class="w-full rounded-lg border-slate-300 text-sm font-mono focus:border-teal-500 focus:ring-teal-500">
+                                <label for="cns" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Cartão Nacional de Saúde (CNS)
+                                </label>
+                                <input type="text" 
+                                       id="cns" 
+                                       name="cns" 
+                                       x-model="cnsVal"
+                                       @input="mascararCns($event)"
+                                       maxlength="15" 
+                                       placeholder="Ex: 700000000000000 (15 dígitos)" 
+                                       class="w-full rounded-lg border-slate-300 text-sm font-mono focus:border-teal-500 focus:ring-teal-500 @error('cns') border-rose-400 bg-rose-50/50 @enderror">
                                 @error('cns') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <!-- Data Nascimento -->
                             <div>
-                                <label for="data_nascimento" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Data de Nascimento *</label>
-                                <input type="date" id="data_nascimento" name="data_nascimento" value="{{ old('data_nascimento') }}" required class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
+                                <label for="data_nascimento" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Data de Nascimento <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="date" 
+                                       id="data_nascimento" 
+                                       name="data_nascimento" 
+                                       value="{{ old('data_nascimento') }}" 
+                                       max="{{ now()->format('Y-m-d') }}"
+                                       required 
+                                       class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('data_nascimento') border-rose-400 bg-rose-50/50 @enderror">
                                 @error('data_nascimento') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
 
                             <!-- Sexo -->
                             <div>
-                                <label for="sexo" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Sexo *</label>
-                                <select id="sexo" name="sexo" required class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
-                                    <option value="">Selecione...</option>
+                                <label for="sexo" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Sexo <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="sexo" 
+                                        name="sexo" 
+                                        required 
+                                        class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('sexo') border-rose-400 bg-rose-50/50 @enderror">
+                                    <option value="">Selecione o sexo</option>
                                     <option value="F" {{ old('sexo') === 'F' ? 'selected' : '' }}>Feminino</option>
                                     <option value="M" {{ old('sexo') === 'M' ? 'selected' : '' }}>Masculino</option>
                                     <option value="Outro" {{ old('sexo') === 'Outro' ? 'selected' : '' }}>Outro</option>
@@ -69,20 +157,27 @@
                         </div>
                     </div>
 
-                    <!-- Vinculação SUS & Agente Comunitário -->
+                    <!-- 2. Vínculo com a Atenção Primária -->
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 mb-4">
-                            2. Vinculação na Atenção Básica (SUS)
-                        </h3>
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-2 mb-4">
+                            <span class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 text-xs font-bold flex items-center justify-center">2</span>
+                            <h3 class="text-base font-bold text-slate-800">Vínculo com a Atenção Primária</h3>
+                        </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- UBS Encaminhadora -->
+                            <!-- UBS de Origem -->
                             <div>
-                                <label for="ubs_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">UBS de Referência *</label>
-                                <select id="ubs_id" name="ubs_id" required class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
-                                    <option value="">Selecione a Unidade Básica...</option>
+                                <label for="ubs_id" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    UBS de Referência <span class="text-rose-500">*</span>
+                                </label>
+                                <select id="ubs_id" 
+                                        name="ubs_id" 
+                                        required 
+                                        class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('ubs_id') border-rose-400 bg-rose-50/50 @enderror">
+                                    <option value="">Selecione a UBS do paciente</option>
                                     @foreach($ubsList as $ubs)
                                         <option value="{{ $ubs->id }}" {{ old('ubs_id') == $ubs->id ? 'selected' : '' }}>
-                                            {{ $ubs->nome }} (CNES: {{ $ubs->cnes ?? 'N/D' }})
+                                            {{ $ubs->nome }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -91,49 +186,82 @@
 
                             <!-- Nome ACS -->
                             <div>
-                                <label for="nome_acs" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nome do Agente de Saúde (ACS)</label>
-                                <input type="text" id="nome_acs" name="nome_acs" value="{{ old('nome_acs') }}" placeholder="Opcional" class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
+                                <label for="nome_acs" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Agente Comunitário de Saúde (ACS)
+                                </label>
+                                <input type="text" 
+                                       id="nome_acs" 
+                                       name="nome_acs" 
+                                       value="{{ old('nome_acs') }}" 
+                                       placeholder="Ex: ACS Maria Pereira" 
+                                       class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('nome_acs') border-rose-400 bg-rose-50/50 @enderror">
                                 @error('nome_acs') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
 
-                    <!-- Contato e Localização -->
+                    <!-- 3. Contatos e Endereço -->
                     <div>
-                        <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-2 mb-4">
-                            3. Contato e Endereço
-                        </h3>
+                        <div class="flex items-center gap-2 border-b border-slate-100 pb-2 mb-4">
+                            <span class="w-6 h-6 rounded-full bg-teal-100 text-teal-700 text-xs font-bold flex items-center justify-center">3</span>
+                            <h3 class="text-base font-bold text-slate-800">Contatos e Endereço</h3>
+                        </div>
+
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <!-- Telefone Principal -->
+                            <!-- Telefone 1 -->
                             <div>
-                                <label for="telefone_1" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Telefone / WhatsApp Principal *</label>
-                                <input type="text" id="telefone_1" name="telefone_1" value="{{ old('telefone_1') }}" required placeholder="(82) 99999-9999" class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
+                                <label for="telefone_1" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Telefone Principal (WhatsApp / Celular) <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" 
+                                       id="telefone_1" 
+                                       name="telefone_1" 
+                                       x-model="tel1Val"
+                                       @input="mascararTelefone($event, 'tel1Val')"
+                                       required 
+                                       placeholder="(00) 00000-0000" 
+                                       class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('telefone_1') border-rose-400 bg-rose-50/50 @enderror">
                                 @error('telefone_1') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
 
-                            <!-- Telefone Secundário / Recado -->
+                            <!-- Telefone 2 -->
                             <div>
-                                <label for="telefone_2" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Telefone Recado / Parente</label>
-                                <input type="text" id="telefone_2" name="telefone_2" value="{{ old('telefone_2') }}" placeholder="Opcional" class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
+                                <label for="telefone_2" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Telefone Secundário / Recado
+                                </label>
+                                <input type="text" 
+                                       id="telefone_2" 
+                                       name="telefone_2" 
+                                       x-model="tel2Val"
+                                       @input="mascararTelefone($event, 'tel2Val')"
+                                       placeholder="(00) 0000-0000" 
+                                       class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('telefone_2') border-rose-400 bg-rose-50/50 @enderror">
                                 @error('telefone_2') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
 
-                            <!-- Endereço Completo -->
+                            <!-- Endereço -->
                             <div class="sm:col-span-2">
-                                <label for="endereco" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Endereço Residencial (Rua, Nº, Bairro)</label>
-                                <input type="text" id="endereco" name="endereco" value="{{ old('endereco') }}" placeholder="Ex: Rua das Flores, 120, Centro" class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500">
+                                <label for="endereco" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                                    Endereço Residencial Completo
+                                </label>
+                                <textarea id="endereco" 
+                                          name="endereco" 
+                                          rows="2" 
+                                          class="w-full rounded-lg border-slate-300 text-sm focus:border-teal-500 focus:ring-teal-500 @error('endereco') border-rose-400 bg-rose-50/50 @enderror" 
+                                          placeholder="Rua, número, bairro e ponto de referência...">{{ old('endereco') }}</textarea>
                                 @error('endereco') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
 
-                    <!-- Botões -->
-                    <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
-                        <a href="{{ route('pacientes.index') }}" class="px-5 py-2.5 bg-slate-100 text-slate-700 text-sm font-semibold rounded-lg hover:bg-slate-200 transition">
+                    <!-- Botões de Ação -->
+                    <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                        <a href="{{ route('pacientes.index') }}" class="px-5 py-2.5 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-700 uppercase tracking-wider hover:bg-slate-50 transition">
                             Cancelar
                         </a>
-                        <button type="submit" class="px-6 py-2.5 bg-teal-600 text-white text-sm font-bold rounded-lg hover:bg-teal-700 transition shadow-xs">
-                            Salvar Paciente
+                        <button type="submit" class="px-6 py-2.5 bg-teal-600 border border-transparent rounded-lg text-xs font-bold text-white uppercase tracking-wider hover:bg-teal-700 transition shadow-xs flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            Salvar Cadastro
                         </button>
                     </div>
                 </form>

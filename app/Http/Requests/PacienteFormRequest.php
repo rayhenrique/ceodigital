@@ -31,8 +31,9 @@ class PacienteFormRequest extends FormRequest
         }
 
         if ($this->has('cns') && is_string($this->cns)) {
+            $cnsLimpo = preg_replace('/\D/', '', $this->cns);
             $this->merge([
-                'cns' => preg_replace('/\D/', '', $this->cns),
+                'cns' => $cnsLimpo !== '' ? $cnsLimpo : null,
             ]);
         }
     }
