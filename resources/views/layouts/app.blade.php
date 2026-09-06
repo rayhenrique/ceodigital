@@ -16,8 +16,11 @@
 
         <style>
             @media print {
-                nav, header, .no-print, button, form {
+                aside, header, nav, .no-print, button, form {
                     display: none !important;
+                }
+                .lg\:pl-64 {
+                    padding-left: 0 !important;
                 }
                 body {
                     background: #fff !important;
@@ -32,9 +35,14 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased text-slate-800 bg-slate-50 min-h-screen flex flex-col overflow-x-hidden">
-        <div class="min-h-screen flex flex-col">
-            @include('layouts.navigation')
+    <body x-data="{ sidebarOpen: false }" class="font-sans antialiased text-slate-800 bg-slate-50 min-h-screen flex flex-col overflow-x-hidden">
+        <!-- Sidebar Fixa no Desktop e Gaveta no Mobile -->
+        @include('layouts.sidebar')
+
+        <!-- Área de Conteúdo Principal (Deslocada da Sidebar no Desktop) -->
+        <div class="lg:pl-64 flex flex-col min-h-screen">
+            <!-- Topbar Minimalista -->
+            @include('layouts.topbar')
 
             <!-- Page Heading -->
             @isset($header)
