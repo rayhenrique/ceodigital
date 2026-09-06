@@ -22,6 +22,23 @@ class AgendamentoFormRequest extends FormRequest
     }
 
     /**
+     * Prepara os dados antes da validação (auto-preenche especialidade a partir do dentista e mapeia observacoes).
+     */
+    protected function prepareForValidation(): void
+    {
+        if (! $this->filled('especialidade_id') && $this->filled('dentista_id')) {
+            $dentista = Dentista::find($this->input('dentista_id'));
+            if ($dentista) {
+                $this->merge(['especialidade_id' => $dentista->especialidade_id]);
+            }
+        }
+
+        if ($this->filled('observacoes') && ! $this->filled('observacao')) {
+            $this->merge(['observacao' => $this->input('observacoes')]);
+        }
+    }
+
+    /**
      * Regras de validação do agendamento.
      *
      * @return array<string, mixed>
@@ -80,9 +97,26 @@ class AgendamentoFormRequest extends FormRequest
                 ->exists();
 
             if (! $gradeExiste) {
+                $diasSemana = [
+                    1 => 'Segunda-feira',
+                    2 => 'Terça-feira',
+                    3 => 'Quarta-feira',
+                    4 => 'Quinta-feira',
+                    5 => 'Sexta-feira',
+                    6 => 'Sábado',
+                ];
+                $nomeDia = $diasSemana[$diaSemana] ?? "dia {$diaSemana}";
+                $turnos = [
+                    'manha' => 'Manhã',
+                    'tarde' => 'Tarde',
+                    'noite' => 'Noite',
+                ];
+                $nomeTurno = $turnos[$turno] ?? $turno;
+                $nomeDentista = $dentista ? "Dr(a). {$dentista->nome_completo}" : 'O dentista selecionado';
+
                 $v->errors()->add(
                     'turno',
-                    'O dentista selecionado não possui escala de atendimento cadastrada para este dia da semana e turno.'
+                    "{$nomeDentista} não possui escala de atendimento cadastrada para {$nomeDia} no turno da {$nomeTurno}. Escolha uma data em que o profissional atenda ou cadastre a grade correspondente."
                 );
             }
         });

@@ -123,6 +123,46 @@ class AgendamentoService
                 );
             }
 
+            $tipo = $dadosAgendamento['tipo'] ?? 'normal';
+
+            if ($tipo === 'encaixe') {
+                $totalEncaixes = Agendamento::where('dentista_id', $dadosAgendamento['dentista_id'])
+                    ->whereDate('data_agendamento', $dadosAgendamento['data_agendamento'])
+                    ->where('turno', $dadosAgendamento['turno'])
+                    ->where('tipo', 'encaixe')
+                    ->whereNotIn('status', ['cancelado'])
+                    ->lockForUpdate()
+                    ->count();
+
+                if ($totalEncaixes >= 2) {
+                    throw new DomainException('Limite de encaixes excedido. Permitido no máximo 2 encaixes por dentista no mesmo turno.');
+                }
+            } else {
+                $data = Carbon::parse($dadosAgendamento['data_agendamento']);
+                $diaSemana = $data->dayOfWeekIso;
+
+                $grade = DentistaGrade::where('dentista_id', $dadosAgendamento['dentista_id'])
+                    ->where('dia_semana', $diaSemana)
+                    ->where('turno', $dadosAgendamento['turno'])
+                    ->first();
+
+                $capacidadeMaxima = $grade ? $grade->vagas_padrao : 8;
+
+                $agendadosNoTurno = Agendamento::where('dentista_id', $dadosAgendamento['dentista_id'])
+                    ->whereDate('data_agendamento', $dadosAgendamento['data_agendamento'])
+                    ->where('turno', $dadosAgendamento['turno'])
+                    ->where('tipo', 'normal')
+                    ->whereNotIn('status', ['cancelado'])
+                    ->lockForUpdate()
+                    ->count();
+
+                if ($agendadosNoTurno >= $capacidadeMaxima) {
+                    throw new DomainException(
+                        "A capacidade padrão deste turno ({$capacidadeMaxima} vagas) já foi atingida. Para incluir este paciente, utilize a opção de Encaixe."
+                    );
+                }
+            }
+
             $agendamento = Agendamento::create([
                 'paciente_id' => $demanda->paciente_id,
                 'dentista_id' => $dadosAgendamento['dentista_id'],
@@ -130,7 +170,7 @@ class AgendamentoService
                 'user_id' => $userId,
                 'data_agendamento' => $dadosAgendamento['data_agendamento'],
                 'turno' => $dadosAgendamento['turno'],
-                'tipo' => $dadosAgendamento['tipo'] ?? 'normal',
+                'tipo' => $tipo,
                 'status' => 'agendado',
                 'observacao' => $dadosAgendamento['observacao'] ?? "Promovido da demanda reprimida em {$demanda->data_solicitacao->format('d/m/Y')}.",
             ]);

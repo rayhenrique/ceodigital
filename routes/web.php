@@ -47,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');
     Route::get('agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
     Route::post('agenda', [AgendaController::class, 'store'])->name('agenda.store');
+    Route::post('agenda/{agendamento}/chegada', [AgendaController::class, 'registrarChegada'])->name('agenda.chegada');
     Route::patch('agenda/{agendamento}/status', [AgendaController::class, 'atualizarStatus'])->name('agenda.status');
     Route::delete('agenda/{agendamento}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
 

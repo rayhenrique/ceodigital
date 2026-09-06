@@ -205,23 +205,27 @@
 
                                         <!-- Paciente -->
                                         <td class="px-4 py-3.5">
-                                            <a href="{{ route('pacientes.show', $agendamento->paciente) }}" class="font-bold text-slate-900 hover:text-teal-600 transition block">
-                                                {{ $agendamento->paciente->nome_completo }}
-                                            </a>
-                                            <div class="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
-                                                <span>CPF: {{ $agendamento->paciente->cpf_formatado }}</span>
-                                                &bull;
-                                                <span>UBS: {{ $agendamento->paciente->ubs->nome ?? 'N/D' }}</span>
-                                            </div>
-                                            @if($agendamento->observacoes)
-                                                <div class="text-[11px] text-amber-700 italic mt-0.5">Obs: {{ $agendamento->observacoes }}</div>
+                                            @if($agendamento->paciente)
+                                                <a href="{{ route('pacientes.show', $agendamento->paciente) }}" class="font-bold text-slate-900 hover:text-teal-600 transition block">
+                                                    {{ $agendamento->paciente->nome_completo }}
+                                                </a>
+                                                <div class="text-xs text-slate-500 flex items-center gap-2 mt-0.5">
+                                                    <span>CPF: {{ $agendamento->paciente->cpf_formatado }}</span>
+                                                    &bull;
+                                                    <span>UBS: {{ $agendamento->paciente->ubs->nome ?? 'N/D' }}</span>
+                                                </div>
+                                            @else
+                                                <span class="font-bold text-slate-400 block">Paciente não localizado</span>
+                                            @endif
+                                            @if($agendamento->observacao || $agendamento->observacoes)
+                                                <div class="text-[11px] text-amber-700 italic mt-0.5">Obs: {{ $agendamento->observacao ?? $agendamento->observacoes }}</div>
                                             @endif
                                         </td>
 
                                         <!-- Dentista / Especialidade -->
                                         <td class="px-4 py-3.5">
-                                            <div class="font-medium text-slate-800">Dr(a). {{ $agendamento->dentista->nome }}</div>
-                                            <div class="text-xs text-teal-700 font-semibold">{{ $agendamento->especialidade->nome }}</div>
+                                            <div class="font-medium text-slate-800">Dr(a). {{ $agendamento->dentista?->nome ?? 'Não atribuído' }}</div>
+                                            <div class="text-xs text-teal-700 font-semibold">{{ $agendamento->especialidade?->nome ?? 'Geral' }}</div>
                                         </td>
 
                                         <!-- Horário Chegada -->

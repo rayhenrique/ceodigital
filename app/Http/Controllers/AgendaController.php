@@ -48,7 +48,7 @@ class AgendaController extends Controller
         // Agendamentos filtrados com Eager Loading estrito
         $agendamentos = Agendamento::query()
             ->with(['paciente.ubs', 'dentista', 'especialidade'])
-            ->where('data_agendamento', $dataStr)
+            ->whereDate('data_agendamento', $dataStr)
             ->where('turno', $turnoAtivo)
             ->when($dentistaId, fn ($q) => $q->where('dentista_id', (int) $dentistaId))
             ->orderByRaw("CASE status WHEN 'em_atendimento' THEN 1 WHEN 'presente' THEN 2 WHEN 'agendado' THEN 3 WHEN 'concluido' THEN 4 WHEN 'falta' THEN 5 WHEN 'cancelado' THEN 6 ELSE 7 END")
@@ -58,9 +58,9 @@ class AgendaController extends Controller
 
         // Totais por turno no dia para os badges das abas
         $contagemTurnos = [
-            'manha' => Agendamento::where('data_agendamento', $dataStr)->where('turno', 'manha')->whereNotIn('status', ['cancelado'])->count(),
-            'tarde' => Agendamento::where('data_agendamento', $dataStr)->where('turno', 'tarde')->whereNotIn('status', ['cancelado'])->count(),
-            'noite' => Agendamento::where('data_agendamento', $dataStr)->where('turno', 'noite')->whereNotIn('status', ['cancelado'])->count(),
+            'manha' => Agendamento::whereDate('data_agendamento', $dataStr)->where('turno', 'manha')->whereNotIn('status', ['cancelado'])->count(),
+            'tarde' => Agendamento::whereDate('data_agendamento', $dataStr)->where('turno', 'tarde')->whereNotIn('status', ['cancelado'])->count(),
+            'noite' => Agendamento::whereDate('data_agendamento', $dataStr)->where('turno', 'noite')->whereNotIn('status', ['cancelado'])->count(),
         ];
 
         return view('agenda.index', compact(
@@ -80,7 +80,7 @@ class AgendaController extends Controller
      */
     public function create(Request $request): View
     {
-        $pacienteId = $request->input('paciente_id');
+        $pacienteId = $request->input('paciente_id') ?? old('paciente_id');
         $pacientePreSelecionado = $pacienteId ? Paciente::with('ubs')->find($pacienteId) : null;
 
         $especialidades = Especialidade::ativas()->orderBy('nome')->get();
@@ -114,6 +114,32 @@ class AgendaController extends Controller
             return back()
                 ->withInput()
                 ->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Erro ao registrar agendamento: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Ocorreu um erro ao processar o agendamento: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Registra a chegada do paciente na recepção do CEO.
+     */
+    public function registrarChegada(Agendamento $agendamento): RedirectResponse
+    {
+        try {
+            $this->agendamentoService->atualizarStatusChegada(
+                agendamentoId: $agendamento->id,
+                status: 'presente',
+                horarioChegada: now()->format('H:i:s')
+            );
+
+            return back()->with('success', 'Chegada do paciente registrada com sucesso!');
+        } catch (DomainException $e) {
+            return back()->with('error', $e->getMessage());
         }
     }
 

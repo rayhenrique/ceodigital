@@ -83,21 +83,61 @@ class DemandaReprimidaController extends Controller
      */
     public function promover(Request $request, DemandaReprimida $demanda): RedirectResponse
     {
-        $request->validate([
+        $dados = $request->validate([
             'dentista_id' => ['required', 'integer', 'exists:dentistas,id'],
             'data_agendamento' => ['required', 'date', 'after_or_equal:today'],
             'turno' => ['required', 'in:manha,tarde,noite'],
             'tipo' => ['nullable', 'in:normal,encaixe'],
         ]);
 
+        $dentista = Dentista::find((int) $dados['dentista_id']);
+        if ($dentista && (int) $dentista->especialidade_id !== (int) $demanda->especialidade_id) {
+            return back()->withInput()->with(
+                'error',
+                "O dentista selecionado (Dr(a). {$dentista->nome_completo}) não pertence à especialidade demandada ({$demanda->especialidade->nome})."
+            );
+        }
+
+        $dataCarbon = \Illuminate\Support\Carbon::parse($dados['data_agendamento']);
+        $diaSemana = $dataCarbon->dayOfWeekIso;
+
+        if ($diaSemana === 7) {
+            return back()->withInput()->with('error', 'O CEO não realiza agendamentos aos domingos.');
+        }
+
+        $gradeExiste = \App\Models\DentistaGrade::where('dentista_id', $dados['dentista_id'])
+            ->where('dia_semana', $diaSemana)
+            ->where('turno', $dados['turno'])
+            ->exists();
+
+        if (! $gradeExiste) {
+            $diasSemana = [
+                1 => 'Segunda-feira',
+                2 => 'Terça-feira',
+                3 => 'Quarta-feira',
+                4 => 'Quinta-feira',
+                5 => 'Sexta-feira',
+                6 => 'Sábado',
+            ];
+            $turnos = ['manha' => 'Manhã', 'tarde' => 'Tarde', 'noite' => 'Noite'];
+            $nomeDia = $diasSemana[$diaSemana] ?? "dia {$diaSemana}";
+            $nomeTurno = $turnos[$dados['turno']] ?? $dados['turno'];
+            $nomeDentista = $dentista ? "Dr(a). {$dentista->nome_completo}" : 'O dentista selecionado';
+
+            return back()->withInput()->with(
+                'error',
+                "{$nomeDentista} não possui escala cadastrada para {$nomeDia} no turno da {$nomeTurno}. Escolha uma data em que o profissional atenda ou utilize outra opção de agendamento."
+            );
+        }
+
         try {
             $agendamento = $this->agendamentoService->promoverDemandaReprimida(
                 demandaReprimidaId: $demanda->id,
                 dadosAgendamento: [
-                    'dentista_id' => (int) $request->input('dentista_id'),
-                    'data_agendamento' => $request->input('data_agendamento'),
-                    'turno' => $request->input('turno'),
-                    'tipo' => $request->input('tipo', 'normal'),
+                    'dentista_id' => (int) $dados['dentista_id'],
+                    'data_agendamento' => $dados['data_agendamento'],
+                    'turno' => $dados['turno'],
+                    'tipo' => $dados['tipo'] ?? 'normal',
                 ],
                 userId: (int) Auth::id()
             );
@@ -109,7 +149,13 @@ class DemandaReprimidaController extends Controller
                 ])
                 ->with('success', "Paciente {$demanda->paciente->nome_completo} promovido da fila com sucesso para a agenda!");
         } catch (DomainException $e) {
-            return back()->with('error', $e->getMessage());
+            return back()->withInput()->with('error', $e->getMessage());
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Erro ao promover demanda reprimida: ' . $e->getMessage(), [
+                'exception' => $e,
+            ]);
+
+            return back()->withInput()->with('error', 'Ocorreu um erro ao promover a solicitação: ' . $e->getMessage());
         }
     }
 
