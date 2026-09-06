@@ -17,29 +17,29 @@
 
     <!-- Header / Navbar Superior -->
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/20">
-                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-teal-500/20 shrink-0">
+                    <svg class="w-5 h-5 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </div>
                 <div>
-                    <span class="text-2xl font-black tracking-tight text-slate-900">CEO <span class="text-teal-600">Digital</span></span>
-                    <p class="text-xs text-slate-500 font-medium tracking-wider uppercase">Centro de Especialidades Odontológicas</p>
+                    <span class="text-xl sm:text-2xl font-black tracking-tight text-slate-900">CEO <span class="text-teal-600">Digital</span></span>
+                    <p class="hidden sm:block text-[11px] sm:text-xs text-slate-500 font-medium tracking-wider uppercase">Centro de Especialidades Odontológicas</p>
                 </div>
             </div>
 
-            <nav class="flex items-center gap-4">
-                <a href="#especialidades" class="text-sm font-semibold text-slate-600 hover:text-teal-600 transition">Especialidades</a>
-                <a href="#horarios" class="text-sm font-semibold text-slate-600 hover:text-teal-600 transition">Atendimento</a>
+            <nav class="flex items-center gap-2 sm:gap-4">
+                <a href="#especialidades" class="hidden sm:inline-block text-sm font-semibold text-slate-600 hover:text-teal-600 transition">Especialidades</a>
+                <a href="#horarios" class="hidden sm:inline-block text-sm font-semibold text-slate-600 hover:text-teal-600 transition">Atendimento</a>
                 @auth
-                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-teal-600 text-white font-semibold text-sm shadow-md hover:bg-teal-700 transition">
+                    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-teal-600 text-white font-semibold text-xs sm:text-sm shadow-md hover:bg-teal-700 transition">
                         <span>Acessar Painel</span>
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-sm shadow-md hover:bg-slate-800 transition">
+                    <a href="{{ route('login') }}" class="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-xs sm:text-sm shadow-md hover:bg-slate-800 transition">
                         <svg class="w-4 h-4 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
                         <span>Acesso Restrito</span>
                     </a>
@@ -49,24 +49,24 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-teal-50/50 via-white to-slate-50">
+    <section class="relative overflow-hidden pt-8 pb-16 sm:pt-12 sm:pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-teal-50/50 via-white to-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
             <div class="text-center max-w-3xl mx-auto">
-                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-100/80 text-teal-800 text-xs font-bold uppercase tracking-wider mb-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-teal-100/80 text-teal-800 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-4 sm:mb-6">
                     <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
                     Rede de Atenção Especializada do SUS
                 </div>
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4 sm:mb-6">
                     Saúde bucal avançada e acolhimento para todos os cidadãos.
                 </h1>
-                <p class="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed mb-10">
+                <p class="text-base sm:text-xl text-slate-600 font-normal leading-relaxed mb-8 sm:mb-10">
                     O <strong>Centro de Especialidades Odontológicas (CEO)</strong> atua como referência para a atenção primária, oferecendo procedimentos especializados, cirurgias, reabilitação protética e diagnóstico precoce com controle informatizado de vagas.
                 </p>
-                <div class="flex flex-wrap items-center justify-center gap-4">
-                    <a href="#especialidades" class="px-6 py-3.5 rounded-xl bg-teal-600 text-white font-semibold shadow-lg shadow-teal-500/25 hover:bg-teal-700 transition">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+                    <a href="#especialidades" class="w-full sm:w-auto text-center px-6 py-3.5 rounded-xl bg-teal-600 text-white font-semibold shadow-lg shadow-teal-500/25 hover:bg-teal-700 transition">
                         Conhecer Especialidades
                     </a>
-                    <a href="#horarios" class="px-6 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 shadow-sm transition">
+                    <a href="#horarios" class="w-full sm:w-auto text-center px-6 py-3.5 rounded-xl bg-white border border-slate-300 text-slate-700 font-semibold hover:bg-slate-50 shadow-sm transition">
                         Horários e Funcionamento
                     </a>
                 </div>

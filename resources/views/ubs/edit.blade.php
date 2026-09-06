@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-slate-800 leading-tight">
                     Editar Dados da UBS
@@ -9,7 +9,7 @@
                     {{ $ubs->nome }}
                 </p>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('ubs.show', $ubs) }}" class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-semibold text-xs uppercase tracking-widest hover:bg-slate-200 transition shadow-xs">
                     Ver Detalhes
                 </a>

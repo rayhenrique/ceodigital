@@ -36,7 +36,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
 
             <!-- KPIs Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                 <!-- Hoje: Total Agendados -->
                 <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
                     <div class="flex items-center justify-between">
@@ -162,7 +162,7 @@
                     </div>
                 @else
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
+                        <table class="w-full text-left text-sm text-slate-600 min-w-[700px]">
                             <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                                 <tr>
                                     <th class="px-4 py-3">Turno / Tipo</th>

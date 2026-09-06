@@ -1,27 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-                <h2 class="font-bold text-2xl text-slate-800 leading-tight">
+                <h2 class="font-bold text-xl sm:text-2xl text-slate-800 leading-tight">
                     Inspeção do Registro de Auditoria #{{ $auditoria->id }}
                 </h2>
-                <p class="text-sm text-slate-500 mt-1">
+                <p class="text-xs sm:text-sm text-slate-500 mt-1">
                     Trilha detalhada de mutação de dados
                 </p>
             </div>
-            <a href="{{ route('auditorias.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs">
+            <a href="{{ route('auditorias.index') }}" class="inline-flex items-center justify-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs w-full sm:w-auto">
                 Voltar aos Logs
             </a>
         </div>
     </x-slot>
 
-    <div class="py-8">
+    <div class="py-6 sm:py-8">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
             <!-- Metadados do Evento -->
-            <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-6">
+            <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-4 sm:p-6">
                 <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Metadados da Operação</h3>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-sm">
                     <div>
                         <span class="text-xs text-slate-400 block">Data e Hora</span>
                         <span class="font-mono font-bold text-slate-800">{{ $auditoria->created_at->format('d/m/Y H:i:s') }}</span>

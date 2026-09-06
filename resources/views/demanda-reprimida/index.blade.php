@@ -85,7 +85,7 @@
             <!-- Table Card -->
             <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
+                    <table class="w-full text-left text-sm text-slate-600 min-w-[750px]">
                         <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 py-3.5">Posição / Prioridade</th>
@@ -207,7 +207,7 @@
                     <div x-show="modalPromoverAberto" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" class="fixed inset-0 bg-slate-900/60 transition-opacity"></div>
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                    <div x-show="modalPromoverAberto" x-transition class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full p-6">
+                    <div x-show="modalPromoverAberto" x-transition class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md w-full p-4 sm:p-6 max-h-[90vh] overflow-y-auto">
                         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                             <div>
                                 <h3 class="font-bold text-lg text-slate-900">Promover para Agendamento</h3>

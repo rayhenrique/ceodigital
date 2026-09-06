@@ -114,13 +114,14 @@
             </div>
 
             <!-- Abas Operacionais por Turno (Manhã, Tarde, Noite) -->
-            <div class="border-b border-slate-200">
-                <nav class="-mb-px flex space-x-4 sm:space-x-8" aria-label="Tabs">
+            <div class="border-b border-slate-200 overflow-x-auto">
+                <nav class="-mb-px flex space-x-2 sm:space-x-8 min-w-max pb-px" aria-label="Tabs">
                     <!-- Turno Manhã -->
                     <a href="{{ route('agenda.index', ['data' => $dataStr, 'turno' => 'manha', 'dentista_id' => $dentistaId]) }}"
-                       class="whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm flex items-center gap-2 transition {{ $turnoAtivo === 'manha' ? 'border-amber-500 text-amber-700' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
-                        <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                        <span>Manhã (07h às 12h)</span>
+                       class="whitespace-nowrap py-3 sm:py-4 px-2 sm:px-1 border-b-2 font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 transition {{ $turnoAtivo === 'manha' ? 'border-amber-500 text-amber-700' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <span>Manhã</span>
+                        <span class="hidden md:inline font-normal text-xs text-slate-500">(07h às 12h)</span>
                         <span class="px-2 py-0.5 rounded-full text-xs font-bold {{ $turnoAtivo === 'manha' ? 'bg-amber-100 text-amber-900' : 'bg-slate-100 text-slate-600' }}">
                             {{ $contagemTurnos['manha'] }}
                         </span>
@@ -128,9 +129,10 @@
 
                     <!-- Turno Tarde -->
                     <a href="{{ route('agenda.index', ['data' => $dataStr, 'turno' => 'tarde', 'dentista_id' => $dentistaId]) }}"
-                       class="whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm flex items-center gap-2 transition {{ $turnoAtivo === 'tarde' ? 'border-orange-500 text-orange-700' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
-                        <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                        <span>Tarde (13h às 18h)</span>
+                       class="whitespace-nowrap py-3 sm:py-4 px-2 sm:px-1 border-b-2 font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 transition {{ $turnoAtivo === 'tarde' ? 'border-orange-500 text-orange-700' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <span>Tarde</span>
+                        <span class="hidden md:inline font-normal text-xs text-slate-500">(13h às 18h)</span>
                         <span class="px-2 py-0.5 rounded-full text-xs font-bold {{ $turnoAtivo === 'tarde' ? 'bg-orange-100 text-orange-900' : 'bg-slate-100 text-slate-600' }}">
                             {{ $contagemTurnos['tarde'] }}
                         </span>
@@ -138,9 +140,10 @@
 
                     <!-- Turno Noite -->
                     <a href="{{ route('agenda.index', ['data' => $dataStr, 'turno' => 'noite', 'dentista_id' => $dentistaId]) }}"
-                       class="whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm flex items-center gap-2 transition {{ $turnoAtivo === 'noite' ? 'border-indigo-500 text-indigo-700' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
-                        <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                        <span>Noite (18h às 22h)</span>
+                       class="whitespace-nowrap py-3 sm:py-4 px-2 sm:px-1 border-b-2 font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2 transition {{ $turnoAtivo === 'noite' ? 'border-indigo-500 text-indigo-700' : 'border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300' }}">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        <span>Noite</span>
+                        <span class="hidden md:inline font-normal text-xs text-slate-500">(18h às 22h)</span>
                         <span class="px-2 py-0.5 rounded-full text-xs font-bold {{ $turnoAtivo === 'noite' ? 'bg-indigo-100 text-indigo-900' : 'bg-slate-100 text-slate-600' }}">
                             {{ $contagemTurnos['noite'] }}
                         </span>
@@ -151,7 +154,7 @@
             <!-- Tabela Operacional de Atendimentos -->
             <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
                 @if($agendamentos->isEmpty())
-                    <div class="p-12 text-center">
+                    <div class="p-8 sm:p-12 text-center">
                         <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 mx-auto flex items-center justify-center mb-3">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                         </div>
@@ -159,7 +162,7 @@
                         <p class="text-sm text-slate-500 mt-1 max-w-sm mx-auto">
                             Não existem agendamentos para o turno da {{ $turnoAtivo }} no dia {{ $dataCarbon->format('d/m/Y') }}.
                         </p>
-                        <div class="mt-4 flex justify-center gap-2">
+                        <div class="mt-4 flex flex-wrap justify-center gap-2">
                             <button @click="modalEncaixeAberto = true" class="px-4 py-2 bg-rose-600 text-white text-xs font-bold rounded-lg hover:bg-rose-700 transition">
                                 Registrar Encaixe
                             </button>
@@ -170,7 +173,7 @@
                     </div>
                 @else
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
+                        <table class="w-full text-left text-sm text-slate-600 min-w-[750px]">
                             <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                                 <tr>
                                     <th class="px-4 py-3.5">Ordem / Tipo</th>

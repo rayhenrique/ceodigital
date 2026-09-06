@@ -103,7 +103,7 @@
                     1. Demanda Reprimida por Especialidade Odontológica
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
+                    <table class="w-full text-left text-sm text-slate-600 min-w-[550px]">
                         <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 py-3">Especialidade Odontológica</th>
@@ -134,7 +134,7 @@
                     2. Relação Nominal Ordenada por Prioridade e Data
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
+                    <table class="w-full text-left text-sm text-slate-600 min-w-[700px]">
                         <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 py-3">Posição / Prioridade</th>

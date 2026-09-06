@@ -23,28 +23,30 @@
 
             <!-- Search Card -->
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-                <form method="GET" action="{{ route('especialidades.index') }}" class="flex gap-3">
+                <form method="GET" action="{{ route('especialidades.index') }}" class="flex flex-col sm:flex-row gap-3">
                     <div class="relative flex-1">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         </div>
                         <input type="text" name="busca" value="{{ $busca ?? '' }}" placeholder="Pesquisar especialidade por nome..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-teal-500 focus:border-teal-500">
                     </div>
-                    <button type="submit" class="px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition">
-                        Buscar
-                    </button>
-                    @if($busca)
-                        <a href="{{ route('especialidades.index') }}" class="px-3 py-2 bg-slate-100 text-slate-600 text-sm font-semibold rounded-lg hover:bg-slate-200 transition">
-                            Limpar
-                        </a>
-                    @endif
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button type="submit" class="flex-1 sm:flex-initial px-5 py-2 bg-slate-800 text-white text-sm font-semibold rounded-lg hover:bg-slate-900 transition">
+                            Buscar
+                        </button>
+                        @if($busca)
+                            <a href="{{ route('especialidades.index') }}" class="px-3 py-2 bg-slate-100 text-slate-600 text-sm font-semibold rounded-lg hover:bg-slate-200 transition text-center">
+                                Limpar
+                            </a>
+                        @endif
+                    </div>
                 </form>
             </div>
 
             <!-- Table Card -->
             <div class="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
+                    <table class="w-full text-left text-sm text-slate-600 min-w-[700px]">
                         <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 py-3.5">Especialidade</th>

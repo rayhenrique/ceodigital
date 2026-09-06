@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-slate-800 leading-tight">
                     Novo Agendamento Odontológico
@@ -9,7 +9,7 @@
                     Agende consultas regulares ou realize encaixes de acordo com as grades do CEO
                 </p>
             </div>
-            <a href="{{ route('agenda.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs">
+            <a href="{{ route('agenda.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs self-start sm:self-auto">
                 Voltar à Agenda
             </a>
         </div>
@@ -75,12 +75,12 @@
                             </div>
                         </div>
 
-                        <div x-show="pacienteIdSelecionado" class="p-3 bg-teal-50 border border-teal-200 rounded-lg text-xs flex items-center justify-between">
+                        <div x-show="pacienteIdSelecionado" class="p-3 bg-teal-50 border border-teal-200 rounded-lg text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div>
                                 <span class="text-teal-800 font-bold">Paciente Selecionado:</span>
                                 <span class="text-slate-900 font-bold ml-1" x-text="pacienteNomeSelecionado"></span>
                             </div>
-                            <button type="button" @click="pacienteIdSelecionado = null; pacienteNomeSelecionado = ''" class="text-rose-600 hover:text-rose-800 font-bold">Alterar Paciente</button>
+                            <button type="button" @click="pacienteIdSelecionado = null; pacienteNomeSelecionado = ''" class="text-rose-600 hover:text-rose-800 font-bold self-end sm:self-auto">Alterar Paciente</button>
                         </div>
                         @error('paciente_id') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>

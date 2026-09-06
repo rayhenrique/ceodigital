@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="font-bold text-2xl text-slate-800 leading-tight">
                     Cadastrar Novo Dentista
@@ -9,7 +9,7 @@
                     Cadastre o profissional especialista e configure sua grade semanal de turnos
                 </p>
             </div>
-            <a href="{{ route('dentistas.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs">
+            <a href="{{ route('dentistas.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-slate-300 rounded-lg font-semibold text-xs text-slate-700 uppercase tracking-widest hover:bg-slate-50 transition shadow-xs self-start sm:self-auto">
                 Voltar à Lista
             </a>
         </div>

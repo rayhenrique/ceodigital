@@ -5,13 +5,13 @@
             <div class="flex items-center">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
                         <x-application-logo class="block h-9 w-auto fill-current text-slate-800" />
                     </a>
                 </div>
 
-                <!-- Navigation Links (Desktop) -->
-                <div class="hidden space-x-1 sm:-my-px sm:ms-8 md:flex items-center">
+                <!-- Navigation Links (Desktop - a partir de lg: 1024px) -->
+                <div class="hidden space-x-1 lg:ms-8 lg:flex items-center">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="px-3 py-2 text-sm font-medium">
                         <svg class="w-4 h-4 me-1.5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                         {{ __('Painel') }}
@@ -40,17 +40,17 @@
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div x-show="dropOpen" x-transition class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-100 py-1 z-50">
+                        <div x-show="dropOpen" x-transition class="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 z-50">
                             <a href="{{ route('dentistas.index') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-800">
-                                <svg class="w-4 h-4 me-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <svg class="w-4 h-4 me-2.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                                 Dentistas & Grades
                             </a>
                             <a href="{{ route('especialidades.index') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-800">
-                                <svg class="w-4 h-4 me-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                                <svg class="w-4 h-4 me-2.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                                 Especialidades
                             </a>
                             <a href="{{ route('ubs.index') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-teal-50 hover:text-teal-800">
-                                <svg class="w-4 h-4 me-2 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                <svg class="w-4 h-4 me-2.5 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                                 UBS de Origem
                             </a>
                         </div>
@@ -71,13 +71,13 @@
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div x-show="adminDrop" x-transition class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-slate-100 py-1 z-50">
+                        <div x-show="adminDrop" x-transition class="absolute left-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 z-50">
                             <a href="{{ route('users.index') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-amber-50 hover:text-amber-900">
-                                <svg class="w-4 h-4 me-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                <svg class="w-4 h-4 me-2.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                 Usuários do Sistema
                             </a>
                             <a href="{{ route('auditorias.index') }}" class="flex items-center px-4 py-2 text-sm text-slate-700 hover:bg-amber-50 hover:text-amber-900">
-                                <svg class="w-4 h-4 me-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                                <svg class="w-4 h-4 me-2.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                                 Log de Auditoria
                             </a>
                         </div>
@@ -86,15 +86,15 @@
                 </div>
             </div>
 
-            <!-- Settings & Profile (Desktop) -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6 gap-3">
+            <!-- Settings & Profile (Desktop - lg) -->
+            <div class="hidden lg:flex lg:items-center lg:ms-6 gap-3">
                 <!-- Role Badge -->
                 @if(Auth::user()->isAdmin())
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 border border-emerald-200">
                         Administrador
                     </span>
                 @else
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
+                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 border border-blue-200">
                         Operador
                     </span>
                 @endif
@@ -131,9 +131,15 @@
                 </x-dropdown>
             </div>
 
-            <!-- Mobile Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-slate-500 hover:bg-slate-100 focus:outline-none">
+            <!-- Mobile / Tablet Header Controls (Visível abaixo de lg) -->
+            <div class="flex items-center gap-2 lg:hidden">
+                <!-- Mini User Indicator -->
+                <div class="w-8 h-8 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-xs border border-teal-200" title="{{ Auth::user()->name }}">
+                    {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 focus:outline-none transition" aria-label="Menu principal">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -143,68 +149,116 @@
         </div>
     </div>
 
-    <!-- Responsive Mobile Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden border-t border-slate-200 bg-white">
-        <div class="pt-2 pb-3 space-y-1">
+    <!-- Responsive Mobile / Tablet Drawer Menu -->
+    <div x-show="open" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-2"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-2"
+         class="lg:hidden border-t border-slate-200 bg-white max-h-[calc(100vh-4rem)] overflow-y-auto">
+         
+        <!-- Seção 1: Operacional / Atendimento -->
+        <div class="px-4 pt-3 pb-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Atendimento & Fluxo</span>
+        </div>
+        <div class="px-2 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Painel') }}
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>{{ __('Painel Geral') }}</span>
             </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.*')">
-                {{ __('Agenda') }}
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <span>{{ __('Agenda do Dia') }}</span>
             </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('pacientes.index')" :active="request()->routeIs('pacientes.*')">
-                {{ __('Pacientes') }}
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                <span>{{ __('Cadastro de Pacientes') }}</span>
             </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('demanda-reprimida.index')" :active="request()->routeIs('demanda-reprimida.*')">
-                {{ __('Fila de Espera') }}
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>{{ __('Fila de Espera (Demanda)') }}</span>
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dentistas.index')" :active="request()->routeIs('dentistas.*')">
-                {{ __('Dentistas & Grades') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('especialidades.index')" :active="request()->routeIs('especialidades.*')">
-                {{ __('Especialidades') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('ubs.index')" :active="request()->routeIs('ubs.*')">
-                {{ __('UBS de Origem') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('relatorios.index')" :active="request()->routeIs('relatorios.*')">
-                {{ __('Relatórios') }}
-            </x-responsive-nav-link>
-            @if(Auth::user()->isAdmin())
-                <div class="px-4 pt-2 text-xs font-semibold uppercase text-amber-700">Administração</div>
-                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                    {{ __('Usuários') }}
-                </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">
-                    {{ __('Auditoria') }}
-                </x-responsive-nav-link>
-            @endif
         </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-3 border-t border-slate-200 px-4">
+        <!-- Seção 2: Estrutura / Cadastros -->
+        <div class="px-4 pt-4 pb-1 border-t border-slate-100 mt-2">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Cadastros & Estrutura</span>
+        </div>
+        <div class="px-2 space-y-1">
+            <x-responsive-nav-link :href="route('dentistas.index')" :active="request()->routeIs('dentistas.*')">
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                <span>{{ __('Dentistas & Escalas') }}</span>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('especialidades.index')" :active="request()->routeIs('especialidades.*')">
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <span>{{ __('Especialidades Clínicas') }}</span>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('ubs.index')" :active="request()->routeIs('ubs.*')">
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                <span>{{ __('Unidades Básicas (UBS)') }}</span>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('relatorios.index')" :active="request()->routeIs('relatorios.*')">
+                <svg class="w-5 h-5 me-3 opacity-70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <span>{{ __('Relatórios & Indicadores') }}</span>
+            </x-responsive-nav-link>
+        </div>
+
+        <!-- Seção 3: Administração (para Administradores) -->
+        @if(Auth::user()->isAdmin())
+            <div class="px-4 pt-4 pb-1 border-t border-slate-100 mt-2">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-amber-600">Administração do Sistema</span>
+            </div>
+            <div class="px-2 space-y-1">
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                    <svg class="w-5 h-5 me-3 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                    <span>{{ __('Gestão de Usuários') }}</span>
+                </x-responsive-nav-link>
+
+                <x-responsive-nav-link :href="route('auditorias.index')" :active="request()->routeIs('auditorias.*')">
+                    <svg class="w-5 h-5 me-3 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    <span>{{ __('Log de Auditoria') }}</span>
+                </x-responsive-nav-link>
+            </div>
+        @endif
+
+        <!-- Seção 4: Perfil do Usuário e Logout -->
+        <div class="pt-4 pb-4 border-t border-slate-200 mt-3 px-4 bg-slate-50/70">
             <div class="flex items-center justify-between">
-                <div>
-                    <div class="font-semibold text-slate-800">{{ Auth::user()->name }}</div>
-                    <div class="text-xs text-slate-500">{{ Auth::user()->email }}</div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-teal-100 text-teal-800 flex items-center justify-center font-bold text-sm border border-teal-200">
+                        {{ strtoupper(substr(Auth::user()->name, 0, 2)) }}
+                    </div>
+                    <div>
+                        <div class="font-bold text-sm text-slate-800">{{ Auth::user()->name }}</div>
+                        <div class="text-xs text-slate-500">{{ Auth::user()->email }}</div>
+                    </div>
                 </div>
                 @if(Auth::user()->isAdmin())
-                    <span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800">Admin</span>
+                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">Admin</span>
                 @else
-                    <span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-800">Operador</span>
+                    <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-blue-100 text-blue-800 border border-blue-200">Operador</span>
                 @endif
             </div>
 
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+            <div class="mt-3 pt-3 border-t border-slate-200/80 space-y-1">
+                <a href="{{ route('profile.edit') }}" class="flex items-center px-3 py-2 text-sm font-medium text-slate-700 hover:bg-white rounded-lg transition">
+                    <svg class="w-4 h-4 me-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     {{ __('Meu Perfil') }}
-                </x-responsive-nav-link>
+                </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault(); this.closest('form').submit();" class="text-rose-600">
-                        {{ __('Sair') }}
-                    </x-responsive-nav-link>
+                    <button type="submit" class="w-full flex items-center px-3 py-2 text-sm font-medium text-rose-600 hover:bg-rose-50 rounded-lg transition">
+                        <svg class="w-4 h-4 me-2.5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                        {{ __('Sair do Sistema') }}
+                    </button>
                 </form>
             </div>
         </div>

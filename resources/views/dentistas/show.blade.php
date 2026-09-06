@@ -95,7 +95,7 @@
                     </div>
                 @else
                     <div class="overflow-x-auto">
-                        <table class="w-full text-left text-sm text-slate-600">
+                        <table class="w-full text-left text-sm text-slate-600 min-w-[550px]">
                             <thead class="bg-slate-50 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                                 <tr>
                                     <th class="px-4 py-3">Data / Turno</th>

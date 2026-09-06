@@ -94,7 +94,7 @@
                     Produção Consolidada por Profissional Cirurgião-Dentista
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-slate-600">
+                    <table class="w-full text-left text-sm text-slate-600 min-w-[650px]">
                         <thead class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
                             <tr>
                                 <th class="px-4 py-3">Profissional / CRO</th>

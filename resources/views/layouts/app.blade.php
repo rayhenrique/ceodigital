@@ -32,14 +32,14 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased text-slate-800 bg-slate-50 min-h-screen flex flex-col">
+    <body class="font-sans antialiased text-slate-800 bg-slate-50 min-h-screen flex flex-col overflow-x-hidden">
         <div class="min-h-screen flex flex-col">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white border-b border-slate-200 no-print">
-                    <div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-4 sm:py-5 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
