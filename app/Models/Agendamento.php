@@ -17,19 +17,19 @@ use Illuminate\Support\Carbon;
  * @property int $dentista_id
  * @property int $especialidade_id
  * @property int $user_id
- * @property \Illuminate\Support\Carbon $data_agendamento
- * @property-read \Illuminate\Support\Carbon $data
+ * @property Carbon $data_agendamento
+ * @property-read Carbon $data
  * @property string $turno
  * @property string $tipo
  * @property string $status
  * @property string|null $horario_chegada
  * @property string|null $observacao
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Paciente|null $paciente
- * @property-read \App\Models\Dentista|null $dentista
- * @property-read \App\Models\Especialidade|null $especialidade
- * @property-read \App\Models\User|null $user
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property-read Paciente|null $paciente
+ * @property-read Dentista|null $dentista
+ * @property-read Especialidade|null $especialidade
+ * @property-read User|null $user
  */
 class Agendamento extends Model
 {
