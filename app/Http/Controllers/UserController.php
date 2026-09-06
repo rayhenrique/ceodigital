@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ResetUserPasswordRequest;
 use App\Http\Requests\UserFormRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -91,6 +92,22 @@ class UserController extends Controller
         return redirect()
             ->route('users.index')
             ->with('success', 'Usuário atualizado com sucesso.');
+    }
+
+    /**
+     * Redefine a senha de um usuário pelo Administrador.
+     */
+    public function resetPassword(ResetUserPasswordRequest $request, User $user): RedirectResponse
+    {
+        $this->authorize('resetPassword', $user);
+
+        $user->update([
+            'password' => Hash::make($request->validated('password')),
+        ]);
+
+        return redirect()
+            ->route('users.index')
+            ->with('success', "A senha do usuário {$user->name} foi redefinida com sucesso!");
     }
 
     /**

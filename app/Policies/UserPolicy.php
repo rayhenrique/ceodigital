@@ -45,6 +45,15 @@ class UserPolicy
     }
 
     /**
+     * Determina se o usuário pode redefinir a senha de outro usuário.
+     * Exclusivo para administradores do sistema.
+     */
+    public function resetPassword(User $user, User $model): bool
+    {
+        return $user->isAdmin();
+    }
+
+    /**
      * Determina se o usuário pode excluir um usuário.
      * Apenas administradores podem excluir, mas nunca a si próprios para evitar lockout.
      */

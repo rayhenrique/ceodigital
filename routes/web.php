@@ -91,6 +91,7 @@ Route::middleware('auth')->group(function () {
 
         // Gestão de Usuários do Sistema
         Route::resource('users', UserController::class);
+        Route::post('users/{user}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
 
         // Trilha de Auditoria (RF24)
         Route::get('auditorias', [AuditoriaController::class, 'index'])->name('auditorias.index');

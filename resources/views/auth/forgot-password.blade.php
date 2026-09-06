@@ -38,6 +38,12 @@
                 <span>Enviar Link de Recuperação</span>
             </button>
 
+            <div class="p-3 bg-amber-50 border border-amber-200/70 rounded-xl text-center">
+                <p class="text-[11px] text-amber-800">
+                    <strong>Sem acesso ao e-mail?</strong> O Administrador do sistema pode redefinir sua senha instantaneamente pelo painel de Gestão de Usuários.
+                </p>
+            </div>
+
             <a href="{{ route('login') }}" class="text-center text-xs font-semibold text-slate-600 hover:text-teal-600 transition">
                 &larr; Voltar para a tela de login
             </a>
