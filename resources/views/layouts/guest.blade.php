@@ -49,6 +49,9 @@
                 <p class="text-[11px] text-slate-400">
                     Sistema de Informatização do Centro de Especialidades Odontológicas
                 </p>
+                <p class="text-[11px] text-slate-400">
+                    Desenvolvido por <a href="https://kltecnologia.com" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-600 hover:text-teal-600 hover:underline transition">KL Tecnologia</a>
+                </p>
             </div>
         </div>
     </body>

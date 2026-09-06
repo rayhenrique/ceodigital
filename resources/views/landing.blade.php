@@ -186,6 +186,7 @@
             <div class="text-sm text-center sm:text-left">
                 <span class="font-bold text-white">CEO Digital</span> &copy; {{ date('Y') }} - Secretaria Municipal de Saúde.
                 <p class="text-xs text-slate-500 mt-1">Desenvolvido sob as diretrizes do Programa Brasil Sorridente / SUS.</p>
+                <p class="text-xs text-slate-400 mt-2">Desenvolvido por <a href="https://kltecnologia.com" target="_blank" rel="noopener noreferrer" class="font-medium text-teal-400 hover:text-teal-300 hover:underline transition">KL Tecnologia</a></p>
             </div>
             <div>
                 <a href="{{ route('login') }}" class="inline-flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-teal-400 transition py-1 px-3 rounded-lg border border-slate-800 hover:border-slate-700">

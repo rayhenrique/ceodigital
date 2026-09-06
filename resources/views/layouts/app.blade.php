@@ -109,8 +109,13 @@
 
             <!-- Footer -->
             <footer class="bg-white border-t border-slate-200 py-4 no-print text-center text-xs text-slate-500">
-                <div class="max-w-7xl mx-auto px-4">
-                    CEO Digital &copy; {{ date('Y') }} - Sistema Municipal de Especialidades Odontológicas (SUS)
+                <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <div>
+                        CEO Digital &copy; {{ date('Y') }} - Sistema Municipal de Especialidades Odontológicas (SUS)
+                    </div>
+                    <div>
+                        Desenvolvido por <a href="https://kltecnologia.com" target="_blank" rel="noopener noreferrer" class="font-medium text-teal-600 hover:text-teal-700 hover:underline transition">KL Tecnologia</a>
+                    </div>
                 </div>
             </footer>
         </div>
