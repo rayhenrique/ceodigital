@@ -215,4 +215,174 @@ class AgendamentoService
             return $agendamento->fresh();
         });
     }
+
+    /**
+     * Gera o mapa de ocupação e lotação mensal da agenda para visualização gerencial.
+     *
+     * @param int $ano
+     * @param int $mes
+     * @param int|null $especialidadeId
+     * @param int|null $dentistaId
+     * @param string|null $turno
+     * @return array<string, mixed>
+     */
+    public function obterMapaMensal(
+        int $ano,
+        int $mes,
+        ?int $especialidadeId = null,
+        ?int $dentistaId = null,
+        ?string $turno = null
+    ): array {
+        $dataInicioMes = Carbon::createFromDate($ano, $mes, 1)->startOfDay();
+        $dataFimMes = $dataInicioMes->copy()->endOfMonth()->endOfDay();
+
+        // 1. Consulta de grades padrão ativas para calcular capacidade
+        $gradesQuery = DentistaGrade::query()
+            ->whereHas('dentista', fn ($q) => $q->where('status_ativo', true))
+            ->when($dentistaId, fn ($q) => $q->where('dentista_id', $dentistaId))
+            ->when($especialidadeId, fn ($q) => $q->whereHas('dentista', fn ($sub) => $sub->where('especialidade_id', $especialidadeId)))
+            ->when($turno, fn ($q) => $q->where('turno', $turno));
+
+        // Capacidade por dia da semana (1 = Seg ... 7 = Dom)
+        $capacidadePorDiaSemana = $gradesQuery
+            ->select('dia_semana', DB::raw('SUM(vagas_padrao) as total_vagas'))
+            ->groupBy('dia_semana')
+            ->pluck('total_vagas', 'dia_semana')
+            ->map(fn ($val): int => (int) $val)
+            ->toArray();
+
+        // 2. Consulta de agendamentos no mês filtrado
+        $agendamentos = Agendamento::query()
+            ->whereBetween('data_agendamento', [$dataInicioMes->toDateString(), $dataFimMes->toDateString()])
+            ->whereNotIn('status', ['cancelado'])
+            ->when($dentistaId, fn ($q) => $q->where('dentista_id', $dentistaId))
+            ->when($especialidadeId, fn ($q) => $q->where('especialidade_id', $especialidadeId))
+            ->when($turno, fn ($q) => $q->where('turno', $turno))
+            ->get();
+
+        $agendamentosPorData = $agendamentos->groupBy(fn ($item) => $item->data_agendamento->toDateString());
+
+        // 3. Montar matriz de calendário com padding de semanas (Segunda a Domingo)
+        $primeiroDiaGrade = $dataInicioMes->copy()->startOfWeek(Carbon::MONDAY);
+        $ultimoDiaGrade = $dataFimMes->copy()->endOfWeek(Carbon::SUNDAY);
+
+        $diasGrade = [];
+        $cursor = $primeiroDiaGrade->copy();
+
+        $capacidadeTotalMes = 0;
+        $totalAgendadosMes = 0;
+        $diasLotadosCount = 0;
+        $totalConcluidos = 0;
+        $totalFaltas = 0;
+
+        while ($cursor->lte($ultimoDiaGrade)) {
+            $dataStr = $cursor->toDateString();
+            $diaSemanaIso = $cursor->dayOfWeekIso;
+            $isMesAtual = $cursor->month === $mes;
+
+            /** @var \Illuminate\Support\Collection<int, Agendamento> $agendamentosDia */
+            $agendamentosDia = $agendamentosPorData->get($dataStr, collect());
+            $totalAgendados = $agendamentosDia->count();
+            $capacidadeDia = $capacidadePorDiaSemana[$diaSemanaIso] ?? 0;
+
+            $concluidosDia = $agendamentosDia->where('status', 'concluido')->count();
+            $faltasDia = $agendamentosDia->where('status', 'falta')->count();
+
+            if ($isMesAtual) {
+                $capacidadeTotalMes += $capacidadeDia;
+                $totalAgendadosMes += $totalAgendados;
+                $totalConcluidos += $concluidosDia;
+                $totalFaltas += $faltasDia;
+            }
+
+            if ($capacidadeDia > 0) {
+                $percentual = (int) round(($totalAgendados / $capacidadeDia) * 100);
+                if ($percentual >= 100) {
+                    $nivel = 'lotado';
+                    $corBadge = 'bg-rose-100 text-rose-800 border-rose-200';
+                    $corBarra = 'bg-rose-500';
+                    $textoStatus = 'Lotado';
+                    if ($isMesAtual) {
+                        $diasLotadosCount++;
+                    }
+                } elseif ($percentual >= 80) {
+                    $nivel = 'quase_cheio';
+                    $corBadge = 'bg-amber-100 text-amber-800 border-amber-200';
+                    $corBarra = 'bg-amber-500';
+                    $textoStatus = 'Quase Cheio';
+                } elseif ($percentual >= 50) {
+                    $nivel = 'moderado';
+                    $corBadge = 'bg-blue-100 text-blue-800 border-blue-200';
+                    $corBarra = 'bg-blue-500';
+                    $textoStatus = 'Moderado';
+                } else {
+                    $nivel = 'livre';
+                    $corBadge = 'bg-emerald-100 text-emerald-800 border-emerald-200';
+                    $corBarra = 'bg-emerald-500';
+                    $textoStatus = 'Vagas Livres';
+                }
+            } else {
+                $percentual = 0;
+                $nivel = 'sem_escala';
+                $corBadge = 'bg-slate-100 text-slate-500 border-slate-200';
+                $corBarra = 'bg-slate-300';
+                $textoStatus = 'Sem Escala';
+            }
+
+            $diasGrade[] = [
+                'data' => $dataStr,
+                'dia' => $cursor->day,
+                'dia_semana' => $diaSemanaIso,
+                'nome_dia' => $cursor->translatedFormat('D'),
+                'is_mes_atual' => $isMesAtual,
+                'is_hoje' => $cursor->isToday(),
+                'is_passado' => $cursor->isPast() && ! $cursor->isToday(),
+                'capacidade' => $capacidadeDia,
+                'total_agendados' => $totalAgendados,
+                'total_encaixes' => $agendamentosDia->where('tipo', 'encaixe')->count(),
+                'percentual_ocupacao' => $percentual,
+                'nivel' => $nivel,
+                'cor_badge' => $corBadge,
+                'cor_barra' => $corBarra,
+                'texto_status' => $textoStatus,
+                'turnos' => [
+                    'manha' => $agendamentosDia->where('turno', 'manha')->count(),
+                    'tarde' => $agendamentosDia->where('turno', 'tarde')->count(),
+                    'noite' => $agendamentosDia->where('turno', 'noite')->count(),
+                ],
+                'concluidos' => $concluidosDia,
+                'faltas' => $faltasDia,
+            ];
+
+            $cursor->addDay();
+        }
+
+        $taxaOcupacaoGeral = $capacidadeTotalMes > 0
+            ? round(($totalAgendadosMes / $capacidadeTotalMes) * 100, 1)
+            : 0.0;
+
+        $totalRealizadosOuFaltas = $totalConcluidos + $totalFaltas;
+        $taxaAbsenteismo = $totalRealizadosOuFaltas > 0
+            ? round(($totalFaltas / $totalRealizadosOuFaltas) * 100, 1)
+            : 0.0;
+
+        return [
+            'ano' => $ano,
+            'mes' => $mes,
+            'nome_mes' => ucfirst($dataInicioMes->translatedFormat('F')),
+            'mes_ano_texto' => ucfirst($dataInicioMes->translatedFormat('F \\d\\e Y')),
+            'data_anterior' => $dataInicioMes->copy()->subMonth(),
+            'data_proxima' => $dataInicioMes->copy()->addMonth(),
+            'dias_grade' => $diasGrade,
+            'kpis' => [
+                'capacidade_total' => $capacidadeTotalMes,
+                'total_agendados' => $totalAgendadosMes,
+                'taxa_ocupacao' => $taxaOcupacaoGeral,
+                'dias_lotados' => $diasLotadosCount,
+                'total_concluidos' => $totalConcluidos,
+                'total_faltas' => $totalFaltas,
+                'taxa_absenteismo' => $taxaAbsenteismo,
+            ],
+        ];
+    }
 }

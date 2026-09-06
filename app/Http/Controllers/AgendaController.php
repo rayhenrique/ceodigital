@@ -187,4 +187,50 @@ class AgendaController extends Controller
 
         return back()->with('success', 'Agendamento cancelado com sucesso.');
     }
+
+    /**
+     * Visão mensal consolidada da agenda (heatmap de ocupação do CEO para gestão).
+     */
+    public function mensal(Request $request): View
+    {
+        $hoje = now();
+        $mes = (int) $request->input('mes', $hoje->month);
+        $ano = (int) $request->input('ano', $hoje->year);
+
+        if ($mes < 1 || $mes > 12) {
+            $mes = $hoje->month;
+        }
+        if ($ano < 2020 || $ano > 2035) {
+            $ano = $hoje->year;
+        }
+
+        $especialidadeId = $request->filled('especialidade_id') ? (int) $request->input('especialidade_id') : null;
+        $dentistaId = $request->filled('dentista_id') ? (int) $request->input('dentista_id') : null;
+        $turno = $request->filled('turno') ? (string) $request->input('turno') : null;
+
+        $dadosMapa = $this->agendamentoService->obterMapaMensal(
+            $ano,
+            $mes,
+            $especialidadeId,
+            $dentistaId,
+            $turno
+        );
+
+        $especialidades = Especialidade::orderBy('nome')->get(['id', 'nome']);
+        $dentistas = Dentista::where('status_ativo', true)
+            ->when($especialidadeId, fn ($q) => $q->where('especialidade_id', $especialidadeId))
+            ->orderBy('nome_completo')
+            ->get(['id', 'nome_completo', 'especialidade_id']);
+
+        return view('agenda.mensal', [
+            'mapa' => $dadosMapa,
+            'especialidades' => $especialidades,
+            'dentistas' => $dentistas,
+            'especialidadeId' => $especialidadeId,
+            'dentistaId' => $dentistaId,
+            'turnoFiltro' => $turno,
+            'mesAtual' => $mes,
+            'anoAtual' => $ano,
+        ]);
+    }
 }

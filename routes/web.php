@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     // Módulo de Agenda
     Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');
+    Route::get('agenda/mensal', [AgendaController::class, 'mensal'])->name('agenda.mensal');
     Route::get('agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
     Route::post('agenda', [AgendaController::class, 'store'])->name('agenda.store');
     Route::post('agenda/{agendamento}/chegada', [AgendaController::class, 'registrarChegada'])->name('agenda.chegada');

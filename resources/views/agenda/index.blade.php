@@ -68,6 +68,18 @@
     }" @abrir-modal-encaixe.window="modalEncaixeAberto = true">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
 
+            <!-- Abas de Alternância de Visão da Agenda -->
+            <div class="flex border-b border-slate-200">
+                <a href="{{ route('agenda.index', ['data' => $dataStr]) }}" class="py-3 px-5 text-sm font-bold border-b-2 border-teal-600 text-teal-700 bg-teal-50/40 rounded-t-lg transition flex items-center gap-2">
+                    <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    <span>Visualização Diária (Operacional)</span>
+                </a>
+                <a href="{{ route('agenda.mensal', ['mes' => $dataCarbon->month, 'ano' => $dataCarbon->year]) }}" class="py-3 px-5 text-sm font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-700 hover:border-slate-300 transition flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2zM3 10h18M7 15h1m4 0h1m4 0h1m-10 4h1m4 0h1m4 0h1"/></svg>
+                    <span>Mapa Mensal (Gestão & Ocupação)</span>
+                </a>
+            </div>
+
             <!-- Barra Superior de Controle: Navegação de Datas e Filtro de Dentista -->
             <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
                 <!-- Seletor de Data -->
