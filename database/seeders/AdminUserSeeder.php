@@ -15,6 +15,21 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
+        // Administrador Principal do Sistema
+        DB::table('users')->updateOrInsert(
+            ['email' => 'rayhenrique@gmail.com'],
+            [
+                'name' => 'Ray Henrique',
+                'password' => Hash::make('1508rcrc'),
+                'role' => 'admin',
+                'status_ativo' => true,
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
+        // Administrador Institucional Padrão
         DB::table('users')->updateOrInsert(
             ['email' => 'admin@ceodigital.gov.br'],
             [
